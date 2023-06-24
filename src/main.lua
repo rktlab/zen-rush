@@ -73,8 +73,8 @@ function love.load()
   engine:addEntity(
     PlayerEntity:create(
       -- Pos in tile
-      25,
-      25,
+      408,
+      408,
       resources.images.player,
       scene
     )
