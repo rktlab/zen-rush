@@ -67,22 +67,6 @@ function love.load()
   -- Setup an Engine.
   engine = Engine()
 
-  -- Create an empty map.
-  map = {}
-  for i = 1, 51 do
-    map[i] = {}
-    for j = 1, 51 do
-      map[i][j] = 0
-    end
-  end
-
-  -- Initialize the Scene
-  Scene = engine:getRootEntity()
-
-  Scene:add(MapComponent(map))
-  Scene:add(TileSizeComponent())
-  Scene:add(ScreenSizeComponent(screen_width, screen_height))
-
   -- and the player
   engine:addEntity(
     PlayerEntity:create(
@@ -93,14 +77,32 @@ function love.load()
     )
   )
 
+  -- Create an empty map.
+  local map = {}
+  for i = 1, 51 do
+    map[i] = {}
+    for j = 1, 51 do
+      map[i][j] = 0
+    end
+  end
+
+  -- Initialize the Scene
+  local scene = Entity()
+
+  scene:add(MapComponent(map))
+  scene:add(TileSizeComponent())
+  scene:add(ScreenSizeComponent(screen_width, screen_height))
+
+  engine:addEntity(scene)
+
   -- Let's add the MoveSystem to the Engine. Its update()
   -- method will be invoked within any Engine:update() call.
   --engine:addSystem(MoveSystem())
 
   -- This will be a 'draw' System, so the
   -- Engine will call its draw method.
-  -- engine:addSystem(DrawMapSystem(), "draw")
-  engine:addSystem(DrawPlayerSystem(), "draw")
+  engine:addSystem(DrawMapSystem(), "draw")
+  --engine:addSystem(DrawPlayerSystem(), "draw")
 end
 
 function love.update(dt)
