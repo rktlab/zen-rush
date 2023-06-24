@@ -7,7 +7,6 @@ function DrawMap:requires()
 end
 
 function DrawMap:draw()
-  print("Let's draw the map")
   -- Get the player to have its current map position
   -- It's not very ideal to do this grouping things. It feels likes I breaking
   -- the architecture
@@ -15,12 +14,8 @@ function DrawMap:draw()
   local player = self.targets.players[1]
   local player_map_pos = player:get("Position")
 
-  print("Player pos: ".. player_map_pos.x)
-
   -- Normally there is only one map, but let's loop on nonetheless
   for _, entity in pairs(self.targets.maps) do
-    print("We have a map")
-    print()
 
     -- Determine what is visible on the screen based on the player map position.
     -- This will be in Tiles.
