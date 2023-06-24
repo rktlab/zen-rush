@@ -67,13 +67,16 @@ function love.load()
   -- Setup an Engine.
   engine = Engine()
 
+  local scene = Entity()
+
   -- and the player
   engine:addEntity(
     PlayerEntity:create(
       -- Pos in tile
       25,
       25,
-      resources.images.player
+      resources.images.player,
+      scene
     )
   )
 
@@ -87,7 +90,6 @@ function love.load()
   end
 
   -- Initialize the Scene
-  local scene = Entity()
 
   scene:add(MapComponent(map))
   scene:add(TileSizeComponent())
@@ -102,7 +104,7 @@ function love.load()
   -- This will be a 'draw' System, so the
   -- Engine will call its draw method.
   engine:addSystem(DrawMapSystem(), "draw")
-  --engine:addSystem(DrawPlayerSystem(), "draw")
+  engine:addSystem(DrawPlayerSystem(), "draw")
 end
 
 function love.update(dt)

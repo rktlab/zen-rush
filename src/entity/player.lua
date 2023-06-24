@@ -8,8 +8,8 @@ local Sprite = require("component.sprite")
 
 local Player = class("Player")
 
-function Player:create(pos_x, pos_y, sprite)
-  local player = Entity()
+function Player:create(pos_x, pos_y, sprite, parent)
+  local player = Entity(parent)
   player:initialize()
 
   -- Add all the component to the entity

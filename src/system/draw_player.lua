@@ -9,9 +9,9 @@ end
 function DrawPlayer:draw()
   for _, entity in pairs(self.targets) do
 
-    scene = entity:getParent()
-    pos_x = scene:get("ScreenSize").x/2
-    pos_y = scene:get("ScreenSize").y/2
+    local scene = entity:getParent()
+    local pos_x = scene:get("ScreenSize").x/2
+    local pos_y = scene:get("ScreenSize").y/2
 
     love.graphics.draw(
       entity:get("Sprite").image,

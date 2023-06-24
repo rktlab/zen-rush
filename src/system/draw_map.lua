@@ -39,12 +39,12 @@ function DrawMap:draw()
         love.graphics.draw(
           resources.images.map,
           x*16,
-          y*16,
-          0, -- rotation
-          1, -- scale x
-          1, -- scale y
-          entity:get("TileSize").value / 2, -- origin x
-          entity:get("TileSize").value / 2 -- origin y
+          y*16
+          --0, -- rotation
+          --1, -- scale x
+          --1, -- scale y
+          --entity:get("TileSize").value / 2, -- origin x
+          --entity:get("TileSize").value / 2 -- origin y
         )
       end
     end
