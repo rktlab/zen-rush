@@ -22,6 +22,7 @@ local Terebi = require "vendors.terebi"
 local MapComponent = require("component.map")
 local TileSizeComponent = require("component.tile_size")
 local ScreenSizeComponent = require("component.screen_size")
+local Spritesheet = require("component.spritesheet")
 
 -- ---------------------------------------------------------------------------
 -- Entities
@@ -41,9 +42,13 @@ local MovePlayerSystem = require("system.move_player")
 -- Require the rest of our libraries
 
 local helper = require("game.helper")
+local cute = require("vendors.cute")
 require("game.resources")
 
-function love.load()
+function love.load(args)
+  -- Test
+  cute.go(args)
+
   -- Initialize screen
   Terebi.initializeLoveDefaults()
   screen = Terebi.newScreen(tile_size * 17, tile_size * 13, 3)
@@ -61,6 +66,7 @@ function love.load()
   resources:addImage("player", "assets/sprites/player.png")
   resources:addImage("green", "assets/sprites/green.png")
   resources:addImage("map", "assets/sprites/map_placeholder.png")
+  resources:addImage("spritesheet", "assets/sprite.png")
 
   -- load all the resources
   resources:load()
@@ -81,20 +87,11 @@ function love.load()
     )
   )
 
-  -- Create an empty map.
-  local map = {}
-  for i = 1, 51 do
-    map[i] = {}
-    for j = 1, 51 do
-      map[i][j] = 0
-    end
-  end
-
   -- Initialize the Scene
-
-  scene:add(MapComponent(map))
+  scene:add(MapComponent(helper.load_map(require("assets.map"))))
   scene:add(TileSizeComponent())
   scene:add(ScreenSizeComponent(screen_width, screen_height))
+  scene:add(Spritesheet(helper.create_spritesheet()))
 
   engine:addEntity(scene)
 
@@ -122,6 +119,7 @@ function love.draw()
       -- Will invoke the draw() method on each system with type == 'draw'
       engine:draw()
       helper.printFps()
+      cute.draw(love.graphics)
     end
   )
 end

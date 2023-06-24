@@ -33,7 +33,7 @@ run-release: _build/game.love
 
 .PHONY: test
 test:
-	busted
+	@love src --cute-headless
 
 .PHONY: watch-test
 watch-test:

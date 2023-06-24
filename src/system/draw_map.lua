@@ -18,8 +18,10 @@ function DrawMap:draw()
   -- Normally there is only one map, but let's loop on nonetheless
   for _, entity in pairs(self.targets.maps) do
     -- Determine the visible portion of the map on the screen
-    local start_x = player_map_pos.x - entity:get("ScreenSize").x / 2
-    local start_y = player_map_pos.y - entity:get("ScreenSize").y / 2
+    local start_x =
+      math.floor(player_map_pos.x - entity:get("ScreenSize").x / 2)
+    local start_y =
+      math.floor(player_map_pos.y - entity:get("ScreenSize").y / 2)
 
     -- print("Player coord: " .. player_map_pos.x .. ", " .. player_map_pos.y)
     -- print("Screen start pos: " .. start_x .. ", " .. start_y)
@@ -31,16 +33,10 @@ function DrawMap:draw()
       for x = start_x, start_x + entity:get("ScreenSize").x, entity:get(
         "TileSize"
       ).value do
-        -- Currently we only have one sprite for the map
-        -- later on we'll have an if that select the right sprite
-        -- convert x/y to tile position to know what to show
-        -- /16 and floor the value
-        -- if entity.map.tiles[y][x] == whatever, do whatever else
-
         -- We need to calculate the remainder of the tile, to know how many
         -- pixel we should move it so that we don't stick to the exact tile
-        delta_x = math.fmod(x, entity:get("TileSize").value)
-        delta_y = math.fmod(y, entity:get("TileSize").value)
+        local delta_x = math.fmod(x, entity:get("TileSize").value)
+        local delta_y = math.fmod(y, entity:get("TileSize").value)
 
         -- print("Map coord to print: " .. x .. ", " .. y)
         -- We go from map coord, to screen coord
@@ -48,16 +44,34 @@ function DrawMap:draw()
         screen_y = y - start_y
         -- print("Screen coord: " .. x .. ", " .. y)
 
-        love.graphics.draw(
-          resources.images.map,
-          screen_x,
-          screen_y,
-          0, -- rotation
-          1, -- scale x
-          1, -- scale y
-          delta_x, -- origin x
-          delta_y -- origin y
-        )
+        -- Get the spritesheet
+        local quad = entity:get("Spritesheet").sheet
+        local tile_x = math.floor(x / entity:get("TileSize").value)
+        local tile_y = math.floor(y / entity:get("TileSize").value)
+
+        -- Here, render each layer
+        for _, layer in ipairs(entity:get("Map").layers) do
+          --print("Tile coord: " .. tile_x .. ", " .. tile_y)
+          local tile_value = layer[tile_y][tile_x]
+          -- print("tile_value: " .. tile_value)
+          if not (tile_value == 0) then
+            -- print("tile_value: " .. tile_value)
+
+            local tile = quad[tile_value]
+
+            love.graphics.draw(
+              resources.images.spritesheet,
+              tile,
+              screen_x,
+              screen_y,
+              0, -- rotation
+              1, -- scale x
+              1, -- scale y
+              delta_x, -- origin x
+              delta_y -- origin y
+            )
+          end
+        end
       end
     end
   end
