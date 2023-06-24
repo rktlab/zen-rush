@@ -35,6 +35,7 @@ local PlayerEntity = require("entity.player")
 
 local DrawMapSystem = require("system.draw_map")
 local DrawPlayerSystem = require("system.draw_player")
+local MovePlayerSystem = require("system.move_player")
 
 -- ---------------------------------------------------------------------------
 -- Require the rest of our libraries
@@ -103,6 +104,7 @@ function love.load()
 
   -- This will be a 'draw' System, so the
   -- Engine will call its draw method.
+  engine:addSystem(MovePlayerSystem(), "update")
   engine:addSystem(DrawMapSystem(), "draw")
   engine:addSystem(DrawPlayerSystem(), "draw")
 end
@@ -116,10 +118,10 @@ end
 function love.draw()
   screen:draw(
     function()
-      helper.printFps()
       -- TODO: also show the tick per second
       -- Will invoke the draw() method on each system with type == 'draw'
       engine:draw()
+      helper.printFps()
     end
   )
 end
@@ -127,3 +129,16 @@ end
 function love.resize(w, h)
   screen:handleResize()
 end
+
+--function love.keypressed(key)
+--  print(key)
+--    if key == 'right' then
+--        direction = 'right'
+--    elseif key == 'left' then
+--        direction = 'left'
+--    elseif key == 'down' then
+--        direction = 'down'
+--    elseif key == 'up' then
+--        direction = 'up'
+--    end
+--end
