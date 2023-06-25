@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
       with:
@@ -14,7 +14,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo dpkg --add-architecture i386;
-        sudo apt-get install --assume-yes wine-stable wine64 python3-pip libwine
+        sudo apt-get install --assume-yes wine-stable wine64 python3-pip wine32
 
     # If you just want to use the official versions on PyPI, remove the checkout and `pip3 install makelove` instead
     - name: Checkout makelove
