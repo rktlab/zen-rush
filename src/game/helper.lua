@@ -69,10 +69,13 @@ function helper.create_spritesheet()
   local tile_width = 16
   local tile_height = 16
 
+  local column = width / tile_width
+  local lines = height / tile_width
+
   -- loop on the spritesheet
   -- which has 6 lines, and 8 column
-  for y = 0, 5 do
-    for x = 0, 7 do
+  for y = 0, lines - 1 do
+    for x = 0, column - 1 do
       table.insert(
         sheet,
         love.graphics.newQuad(

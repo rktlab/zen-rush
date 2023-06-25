@@ -36,8 +36,17 @@ function MovePlayer:update(dt)
 
     local position = entity:get("Position")
     local velocity = entity:get("Velocity")
-    position.x = position.x + direction[1] * velocity.x * dt
-    position.y = position.y + direction[2] * velocity.y * dt
+    local new_x = position.x + direction[1] * velocity.x * dt
+    local new_y = position.y + direction[2] * velocity.y * dt
+
+    local colision = entity:getParent():get("Colision").layer
+
+    local actualX, actualY, cols, len = colision:move(entity, new_x, new_y)
+    colision:update(entity, actualX, actualY)
+
+    position.x = actualX
+    position.y = actualY
+
   end
 end
 

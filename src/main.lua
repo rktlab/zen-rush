@@ -19,8 +19,10 @@ local Terebi = require "vendors.terebi"
 -- ---------------------------------------------------------------------------
 -- Component
 
+local ColisionComponent = require("component.colision")
 local MapComponent = require("component.map")
 local TileSizeComponent = require("component.tile_size")
+local TilesInfoComponent = require("component.tile_info")
 local ScreenSizeComponent = require("component.screen_size")
 local Spritesheet = require("component.spritesheet")
 
@@ -76,31 +78,38 @@ function love.load(args)
 
   local scene = Entity()
 
-  -- and the player
-  engine:addEntity(
+  -- Add the player
+  local player =
     PlayerEntity:create(
-      -- Pos in tile
-      408,
-      408,
-      resources.images.player,
-      scene
-    )
+    -- Pos in tile
+    408,
+    408,
+    resources.images.player,
+    scene
   )
+
+  engine:addEntity(player)
 
   -- Initialize the Scene
   scene:add(MapComponent(helper.load_map(require("assets.map"))))
+  scene:add(TilesInfoComponent(require("assets.sprite").tiles))
   scene:add(TileSizeComponent())
   scene:add(ScreenSizeComponent(screen_width, screen_height))
   scene:add(Spritesheet(helper.create_spritesheet()))
+  scene:add(ColisionComponent(scene:get("TileSize").value))
 
   engine:addEntity(scene)
 
-  -- Let's add the MoveSystem to the Engine. Its update()
-  -- method will be invoked within any Engine:update() call.
-  --engine:addSystem(MoveSystem())
+  -- Initial colision setup
+  colision = scene:get("Colision").layer
+  colision:add(player, 408, 408, 16, 16)
+  add_map_colision(
+    colision,
+    scene:get("Map").layers,
+    scene:get("TilesInfo").info
+  )
 
-  -- This will be a 'draw' System, so the
-  -- Engine will call its draw method.
+  -- Add our systems to the engine
   engine:addSystem(MovePlayerSystem(), "update")
   engine:addSystem(DrawMapSystem(), "draw")
   engine:addSystem(DrawPlayerSystem(), "draw")
@@ -110,6 +119,7 @@ function love.update(dt)
   require("vendors.lurker").update()
   -- Will run each system with type == 'update'
   engine:update(dt)
+  require("vendors.lovebird").update()
 end
 
 function love.draw()
@@ -128,15 +138,30 @@ function love.resize(w, h)
   screen:handleResize()
 end
 
---function love.keypressed(key)
---  print(key)
---    if key == 'right' then
---        direction = 'right'
---    elseif key == 'left' then
---        direction = 'left'
---    elseif key == 'down' then
---        direction = 'down'
---    elseif key == 'up' then
---        direction = 'up'
---    end
---end
+function add_map_colision(colision, layers, tiles_info)
+  -- loop on the whole map
+  -- not ideal, layer could be different size?
+  for y = 1, #layers[1] do
+    for x = 1, #layers[1][y] do
+      -- determine the id of the upmost tile that is not a 0
+      upmost_id = return_upmost_id(x, y, layers)
+      print(upmost_id)
+      -- check if it collide
+      colide = tiles_info[upmost_id]["colision"]
+      print(colide)
+      if colide then
+        -- if so, add it the colision map
+        colision:add({name = "tile_" .. x .. "_" .. y}, x*16, y*16, 16, 16)
+      end
+    end
+  end
+end
+
+function return_upmost_id(x, y, layers)
+  for i=#layers, 1, -1 do
+    if not ( layers[i][y][x] == 0) then
+      return layers[i][y][x]
+    end
+  end
+
+end
