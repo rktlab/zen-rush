@@ -24,5 +24,8 @@ pkgs.mkShell {
     luajitPackages.luarocks
     luajitPackages.busted
     nodePackages.lua-fmt
+    python39
+    python39Packages.pip
+    python39Packages.virtualenv
   ];
 }

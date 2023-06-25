@@ -145,10 +145,10 @@ function add_map_colision(colision, layers, tiles_info)
     for x = 1, #layers[1][y] do
       -- determine the id of the upmost tile that is not a 0
       upmost_id = return_upmost_id(x, y, layers)
-      print(upmost_id)
+      --print(upmost_id)
       -- check if it collide
       colide = tiles_info[upmost_id]["colision"]
-      print(colide)
+      --print(colide)
       if colide then
         -- if so, add it the colision map
         colision:add({name = "tile_" .. x .. "_" .. y}, x*16, y*16, 16, 16)
