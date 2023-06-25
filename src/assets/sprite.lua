@@ -79,13 +79,13 @@ return {
     {
       id = 8,
       properties = {
-        ["colision"] = false
+        ["colision"] = true
       }
     },
     {
       id = 9,
       properties = {
-        ["colision"] = false
+        ["colision"] = true
       }
     },
     {
@@ -145,7 +145,7 @@ return {
     {
       id = 19,
       properties = {
-        ["colision"] = false
+        ["colision"] = true
       }
     },
     {
@@ -331,7 +331,7 @@ return {
     {
       id = 50,
       properties = {
-        ["colision"] = false
+        ["colision"] = true
       }
     },
     {
@@ -361,7 +361,7 @@ return {
     {
       id = 55,
       properties = {
-        ["colision"] = false
+        ["colision"] = true
       }
     },
     {
@@ -403,13 +403,13 @@ return {
     {
       id = 62,
       properties = {
-        ["colision"] = false
+        ["colision"] = true
       }
     },
     {
       id = 63,
       properties = {
-        ["colision"] = false
+        ["colision"] = true
       }
     },
     {

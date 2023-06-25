@@ -142,6 +142,7 @@ function add_map_colision(colision, layers, tiles_info)
   for y = 1, #layers[1] do
     for x = 1, #layers[1][y] do
       -- determine the id of the upmost tile that is not a 0
+      --print(#layers)
       upmost_id = return_upmost_id(x, y, layers)
       --print(upmost_id)
       -- check if it collide
