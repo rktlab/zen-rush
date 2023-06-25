@@ -66,8 +66,6 @@ function love.load(args)
   resources = Resources()
 
   resources:addImage("player", "assets/sprites/player.png")
-  resources:addImage("green", "assets/sprites/green.png")
-  resources:addImage("map", "assets/sprites/map_placeholder.png")
   resources:addImage("spritesheet", "assets/sprite.png")
 
   -- load all the resources
