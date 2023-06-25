@@ -22,10 +22,8 @@ jobs:
     - name: Install makelove
       run:
         pip3 install ./makelove
-    - name: ls
-      run: ls
     - name: Build
-      run: cd src && python3 -m makelove
+      run: cd main/src && python3 -m makelove
     # I have this step, so I don't need to hardcode the project name in the upload-artifact steps below
     # Sadly all of these artifacts can only be downloaded as a zip, which means that some of them will be double-zipped!
     # This is currently a limitation of GitHub Actions: https://github.com/actions/upload-artifact/issues/3
@@ -33,27 +31,27 @@ jobs:
     # the GitHub Action zipping will not preserve symlinks which would effectively break the .app!
     - name: Prepare Artifact Names
       run: |
-        echo "::set-env name=ARTIFACT_NAME_LOVE::$(ls src/makelove-build/love | head -n1)"
-        echo "::set-env name=ARTIFACT_NAME_APPIMAGE::$(ls src/makelove-build/appimage | head -n1)"
-        echo "::set-env name=ARTIFACT_NAME_WIN64::$(ls src/makelove-build/win64 | head -n1)"
-        echo "::set-env name=ARTIFACT_NAME_MACOS::$(ls scr/makelove-build/macos | head -n1)"
+        echo "::set-env name=ARTIFACT_NAME_LOVE::$(ls main/src/makelove-build/love | head -n1)"
+        echo "::set-env name=ARTIFACT_NAME_APPIMAGE::$(ls main/src/makelove-build/appimage | head -n1)"
+        echo "::set-env name=ARTIFACT_NAME_WIN64::$(ls main/src/makelove-build/win64 | head -n1)"
+        echo "::set-env name=ARTIFACT_NAME_MACOS::$(ls main/scr/makelove-build/macos | head -n1)"
     - name: Artifact (love)
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.ARTIFACT_NAME_LOVE }}
-        path: src/makelove-build/love/${{ env.ARTIFACT_NAME_LOVE }}
+        path: main/src/makelove-build/love/${{ env.ARTIFACT_NAME_LOVE }}
     - name: Artifact (AppImage)
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.ARTIFACT_NAME_APPIMAGE }}
-        path: src/makelove-build/appimage/${{ env.ARTIFACT_NAME_APPIMAGE }}
+        path: main/src/makelove-build/appimage/${{ env.ARTIFACT_NAME_APPIMAGE }}
     - name: Artifact (Win64)
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.ARTIFACT_NAME_WIN64 }}
-        path: src/makelove-build/win64/${{ env.ARTIFACT_NAME_WIN64 }}
+        path: main/src/makelove-build/win64/${{ env.ARTIFACT_NAME_WIN64 }}
     - name: Artifact (MacOS)
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.ARTIFACT_NAME_MACOS }}
-        path: src/makelove-build/macos/${{ env.ARTIFACT_NAME_MACOS }}
+        path: main/src/makelove-build/macos/${{ env.ARTIFACT_NAME_MACOS }}
