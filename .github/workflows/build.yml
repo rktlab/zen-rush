@@ -12,8 +12,8 @@ jobs:
     - name: Update
       run: sudo apt-get update
     - name: Install Dependencies
-      run:
-        dpkg --add-architecture i386
+      run: |
+        dpkg --add-architecture i386;
         sudo apt-get install --assume-yes wine-stable wine64 python3-pip wine32
 
     # If you just want to use the official versions on PyPI, remove the checkout and `pip3 install makelove` instead
