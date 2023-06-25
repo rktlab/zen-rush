@@ -12,10 +12,13 @@ jobs:
     - name: Update
       run: sudo apt-get update
     - name: Install Dependencies
-      run: sudo apt-get install --assume-yes wine-stable wine64 python3-pip
+      run:
+        dpkg --add-architecture i386
+        sudo apt-get install --assume-yes wine-stable wine64 python3-pip wine32"
+
     # If you just want to use the official versions on PyPI, remove the checkout and `pip3 install makelove` instead
     - name: Checkout makelove
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: pfirsich/makelove
         path: makelove
