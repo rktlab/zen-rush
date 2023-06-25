@@ -1,7 +1,7 @@
 name = "Zen Rush"
 default_targets = ["win64", "macos"]
 build_directory = "makelove-build"
-icon_file = "assets/"
+icon_file = "assets/thumb.png"
 love_version = "11.4"
 
 love_files = [
