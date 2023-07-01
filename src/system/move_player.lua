@@ -13,19 +13,23 @@ function MovePlayer:update(dt)
     local direction = {0, 0}
 
     if love.keyboard.isDown("right") then
-      direction[1] = 1
-    elseif love.keyboard.isDown("left") then
-      direction[1] = -1
+      direction[1] = direction[1] + 1
+    end
+    
+    if love.keyboard.isDown("left") then
+      direction[1] = direction[1] - 1
     end
 
     if love.keyboard.isDown("down") then
-      direction[2] = 1
-    elseif love.keyboard.isDown("up") then
-      direction[2] = -1
+      direction[2] = direction[2] + 1
+    end
+    
+    if love.keyboard.isDown("up") then
+      direction[2] = direction[2] - 1
     end
 
     -- If we go in diagonal, we normalise the speed
-    -- Not that we hardcoded the norm, so it only support 45deg movement
+    -- Note that we hardcoded the norm, so it only support 45deg movement
     -- Anyway on a keyboard we can only do that.
     if not (direction[1] == 0 or direction[2] == 0) then
       direction[1] = direction[1] / 1.41
