@@ -20,8 +20,8 @@ function DrawMap:draw()
     local tile_size = entity:get("TileSize").value
     local screen_size = entity:get("ScreenSize")
     -- Determine the visible portion of the map on the screen
-    local start_x = math.floor(player_map_pos.x - screen_size.x / 2)
-    local start_y = math.floor(player_map_pos.y - screen_size.y / 2)
+    local start_x = math.floor(player_map_pos.x - screen_size.x / 2 + tile_size / 2)
+    local start_y = math.floor(player_map_pos.y - screen_size.y / 2 + tile_size / 2)
 
     -- print("Player coord: " .. player_map_pos.x .. ", " .. player_map_pos.y)
     -- print("Screen start pos: " .. start_x .. ", " .. start_y)
