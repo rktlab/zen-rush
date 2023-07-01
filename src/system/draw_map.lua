@@ -17,26 +17,22 @@ function DrawMap:draw()
 
   -- Normally there is only one map, but let's loop on nonetheless
   for _, entity in pairs(self.targets.maps) do
+    local tile_size = entity:get("TileSize").value
+    local screen_size = entity:get("ScreenSize")
     -- Determine the visible portion of the map on the screen
-    local start_x =
-      math.floor(player_map_pos.x - entity:get("ScreenSize").x / 2)
-    local start_y =
-      math.floor(player_map_pos.y - entity:get("ScreenSize").y / 2)
+    local start_x = math.floor(player_map_pos.x - screen_size.x / 2)
+    local start_y = math.floor(player_map_pos.y - screen_size.y / 2)
 
     -- print("Player coord: " .. player_map_pos.x .. ", " .. player_map_pos.y)
     -- print("Screen start pos: " .. start_x .. ", " .. start_y)
 
     -- loop from around those bound
-    for y = start_y, start_y + entity:get("ScreenSize").y, entity:get(
-      "TileSize"
-    ).value do
-      for x = start_x, start_x + entity:get("ScreenSize").x, entity:get(
-        "TileSize"
-      ).value do
+    for y = start_y, start_y + screen_size.y, tile_size do
+      for x = start_x, start_x + screen_size.x, tile_size do
         -- We need to calculate the remainder of the tile, to know how many
         -- pixel we should move it so that we don't stick to the exact tile
-        local delta_x = math.fmod(x, entity:get("TileSize").value)
-        local delta_y = math.fmod(y, entity:get("TileSize").value)
+        local delta_x = math.fmod(x, tile_size)
+        local delta_y = math.fmod(y, tile_size)
 
         -- print("Map coord to print: " .. x .. ", " .. y)
         -- We go from map coord, to screen coord
@@ -46,8 +42,8 @@ function DrawMap:draw()
 
         -- Get the spritesheet
         local quad = entity:get("Spritesheet").sheet
-        local tile_x = math.floor(x / entity:get("TileSize").value)
-        local tile_y = math.floor(y / entity:get("TileSize").value)
+        local tile_x = math.floor(x / tile_size)
+        local tile_y = math.floor(y / tile_size)
 
         -- Here, render each layer
         for _, layer in ipairs(entity:get("Map").layers) do
