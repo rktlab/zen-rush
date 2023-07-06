@@ -67,6 +67,7 @@ function love.load(args)
 
   resources:addImage("player", "assets/sprites/player.png")
   resources:addImage("spritesheet", "assets/sprite.png")
+  resources:addMusic("zen", "assets/sounds/zen-w-bell.mp3")
 
   -- load all the resources
   resources:load()
@@ -118,6 +119,11 @@ function love.update(dt)
   -- Will run each system with type == 'update'
   engine:update(dt)
   require("vendors.lovebird").update()
+  
+  if not resources.music.zen:isPlaying() then
+    love.audio.play(resources.music.zen)
+  end
+
 end
 
 function love.draw()
